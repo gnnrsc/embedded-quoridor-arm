@@ -1,0 +1,89 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;    AREA    MyData, DATA, READWRITE, align=3
+    2 00000000         ;Move   SPACE  4
+    3 00000000         
+    4 00000000                 AREA             Transfer,CODE,READONLY
+    5 00000000                 EXPORT           transfer
+    6 00000000         transfer
+                               PROC
+    7 00000000 46EC            MOV              R12,sp
+    8 00000002 E92D 5FFE       STMFD            sp!,{r1-r12,lr}
+    9 00000006         ;R0 player
+   10 00000006         ;R1 moveWall
+   11 00000006         ;R2 direction
+   12 00000006         ;R3 y
+   13 00000006         ;R4 x
+   14 00000006 F04F 0600       MOV              R6,#0       ;REGISTRO RISULTATO
+                                                            
+   15 0000000A F8DC 4000       LDR              r4, [r12]   ;5° parametro
+   16 0000000E EA4F 0604       LSL              R6, R4, #0  ; Spostiamo i primi
+                                                             8 bit di r5 in r6
+   17 00000012         
+   18 00000012 EA4F 2703       LSL              R7, R3, #8  ; I successivi 8 bi
+                                                            t di r4 in r7
+   19 00000016 EA46 0607       ORR              R6, R6, R7  ; Combiniamo i prim
+                                                            i 8 bit con i succe
+                                                            ssivi 8 bit in r6
+   20 0000001A         
+   21 0000001A EA4F 4702       LSL              R7, R2, #16 ; Spostiamo i succe
+                                                            ssivi 8 bit di r3 i
+                                                            n r7
+   22 0000001E EA46 0607       ORR              R6, R6, R7  ; Combiniamo i prim
+                                                            i 16 bit con i succ
+                                                            essivi 8 bit in r4
+   23 00000022         
+   24 00000022 EA4F 5701       LSL              R7, R1, #20 ; Spostiamo i succe
+                                                            ssivi 4 bit di r2 i
+                                                            n r7
+   25 00000026 EA46 0607       ORR              R6, R6, R7  ; Combiniamo i prim
+                                                            i 16 bit con i succ
+                                                            essivi 8 bit in r4
+   26 0000002A         
+   27 0000002A EA4F 6700       LSL              R7, R0, #24 ; Spostiamo i succe
+                                                            ssivi 4 bit di r2 i
+                                                            n r7
+   28 0000002E EA46 0607       ORR              R6, R6, R7  ; Combiniamo i prim
+                                                            i 16 bit con i succ
+                                                            essivi 8 bit in r4
+   29 00000032         
+   30 00000032         ; setup a value for R0 to return
+   31 00000032 4630            MOV              r0, r6
+   32 00000034         
+   33 00000034 E8BD 9FFE       LDMFD            sp!,{r1-r12,pc}
+   34 00000038                 ENDP
+   35 00000038                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\transfer.d -o.\transfer.o -I.\RTE\_Target_1 -IC:\Users\unigi\App
+Data\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include -IC:\Users\unigi\AppDat
+a\Local\Arm\Packs\Keil\LPC1700_DFP\2.7.1\Device\Include --predefine="__UVISION_
+VERSION SETA 536" --predefine="_RTE_ SETA 1" --predefine="LPC175x_6x SETA 1" --
+predefine="_RTE_ SETA 1" --list=.\transfer.lst transfer.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Transfer 00000000
+
+Symbol: Transfer
+   Definitions
+      At line 4 in file transfer.s
+   Uses
+      None
+Comment: Transfer unused
+transfer 00000000
+
+Symbol: transfer
+   Definitions
+      At line 6 in file transfer.s
+   Uses
+      At line 5 in file transfer.s
+Comment: transfer used once
+2 symbols
+335 symbols in table
